@@ -35,13 +35,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
-        with:Where should we begin?
-￼
-
+        with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
@@ -60,7 +58,7 @@ jobs:
             # Install dependencies
             npm install --omit=dev
 
-            # Stop existing app (gracefully handle if not running)
+            # Stop existing app
             pm2 stop ci-cd-github 2>/dev/null || echo "App not running, starting fresh"
             pm2 delete ci-cd-github 2>/dev/null || echo "No existing app to delete"
 
